@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include <cstdio>
 #include "window.hpp"
-#include "player.hpp"
 #include "globals.hpp"
 
 eng::Window main_window(glm::ivec2(200, 150));
