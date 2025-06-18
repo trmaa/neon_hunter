@@ -1,5 +1,4 @@
-.cache/
-
-assets/lib/
-assets/include/SFML/
-assets/include/glm/
+./.cache/
+./assets/lib/
+./assets/include/SFML/
+./assets/include/glm/
