@@ -1,0 +1,3 @@
+#!/bin/bash
+
+g++ assets/src/*.cpp -o build/neon_hunter -Wl,-rpath=./assets/lib/ -Iassets/include/ -Lassets/lib/ -lsfml-graphics -lsfml-window -lsfml-system

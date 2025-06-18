@@ -1,0 +1,15 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Iassets/include/",
+      "-o",
+      "build/neon_hunter",
+      "assets/src/main.cpp"
+    ],
+    "directory": "/home/pablo/neon_hunter",
+    "file": "/home/pablo/neon_hunter/assets/src/main.cpp",
+    "output": "/home/pablo/neon_hunter/build/neon_hunter"
+  }
+]
