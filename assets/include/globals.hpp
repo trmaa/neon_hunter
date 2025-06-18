@@ -1,3 +1,4 @@
 #pragma one
 
-extern float ticks;
+extern float g_ticks;
+extern float g_delta_time;

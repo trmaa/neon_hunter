@@ -19,7 +19,7 @@ sf::Sprite Player::draw() {
 	shader.loadFromFile("build/shaders/normal_lighting.glsl", sf::Shader::Fragment);
 	shader.setUniform("texture", this->m_texture);
 	shader.setUniform("normalmap", this->m_normalmap);
-	shader.setUniform("time", ticks);
+	shader.setUniform("time", g_ticks);
 
 	sf::Sprite sprite;
 	sprite.setTexture(this->m_texture);

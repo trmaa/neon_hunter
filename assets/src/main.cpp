@@ -6,7 +6,8 @@
 #include "globals.hpp"
 
 eng::Window main_window(glm::ivec2(200, 150));
-float ticks = 0.0f;
+float g_ticks = 0.0f;
+float g_delta_time;
 
 void loop() {
 	main_window.update();
@@ -15,6 +16,7 @@ void loop() {
 int main() {
 	std::printf(":) \n");
 	
+	sf::Clock clock;
 	while (main_window.isOpen()) {
 		sf::Event event;
         while (main_window.pollEvent(event)) {
@@ -22,7 +24,8 @@ int main() {
                 main_window.close();
             }
         }
-		ticks += 0.001f;
+		g_delta_time = clock.restart().asSeconds();
+		g_ticks += g_delta_time;
 		loop();
     }
 }
