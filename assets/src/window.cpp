@@ -19,10 +19,19 @@ eng::Window::Window(glm::ivec2 res)
 
 void eng::Window::update() {
 	this->clear(sf::Color::Black);
+	
+	std::vector<sf::Sprite> sorted_sprites;
+	for (auto& callback: this->m_pipeline) {
+		sorted_sprites.push_back(callback());
+	}
 
-    for (auto& callback: this->m_pipeline) {
-        this->draw(callback());
-    }
+	std::sort(sorted_sprites.begin(), sorted_sprites.end(), [](const sf::Sprite& a, const sf::Sprite& b) {
+		return a.getPosition().y < b.getPosition().y;
+	});
 
-    this->display();
+	for (auto& sprite: sorted_sprites) {
+		this->draw(sprite);
+	}
+
+	this->display();
 }
