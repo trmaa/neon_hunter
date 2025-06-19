@@ -1,6 +1,7 @@
 #pragma one
 
 #include <vector>
-#include "entity.hpp"
+#include "player.hpp"
 
 extern std::vector<eng::Entity*> g_entities;
+extern Player g_player;

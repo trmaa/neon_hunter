@@ -12,6 +12,8 @@ void start_loop();
 
 void loop() {
 	g_window.update();
+
+	g_player.control();
 }
 
 int main() {
