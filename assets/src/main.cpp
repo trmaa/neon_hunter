@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
-#include <cstdio>
 #include "globals.hpp"
 #include "entities.hpp"
 
@@ -12,14 +11,11 @@ void start_loop();
 
 void loop() {
 	g_window.update();
-
 	g_player.control();
 }
 
 int main() {
-	std::printf(":) \n");
-
-	g_initialize_entities();
+	g_lightspots_init();
 	start_loop();
 }
 
