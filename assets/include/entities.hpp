@@ -1,5 +1,6 @@
 #pragma one
 
-#include "player.hpp"
+#include <vector>
+#include "entity.hpp"
 
-extern Player player;
+extern std::vector<eng::Entity*> g_entities;

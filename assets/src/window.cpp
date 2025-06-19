@@ -12,9 +12,11 @@ eng::Window::Window(glm::ivec2 res)
 	/************
 	 * PIPELINE *
 	 ************/
-	this->m_pipeline.push_back([]() -> sf::Sprite {
-		return player.draw();
-	});
+	for (auto* entity : g_entities) {
+		this->m_pipeline.push_back([entity]() -> sf::Sprite {
+			return entity->draw();
+		});
+	}
 }
 
 void eng::Window::update() {
