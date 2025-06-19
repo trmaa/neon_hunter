@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "SFML/System/Vector2.hpp"
 #include "vectors.hpp"
 #include "globals.hpp"
 #include "entities.hpp"
@@ -19,10 +20,14 @@ sf::Sprite eng::Entity::draw() {
 
 	sf::Shader shader;
 	shader.loadFromFile("build/shaders/normal_lighting.glsl", sf::Shader::Fragment);
-	shader.setUniform("time", g_ticks);
 	shader.setUniform("texture", this->get_texture());
 	shader.setUniform("normalmap", this->get_normalmap());
 	shader.setUniform("entity_position", eng::gts(this->m_position));
+	for (std::size_t i = 0; i < g_lightspots.size(); ++i) {
+		shader.setUniform("lightspots_pos[" + std::to_string(i) + "]", g_lightspots[i].position);
+		shader.setUniform("lightspots_col[" + std::to_string(i) + "]", g_lightspots[i].color);
+		shader.setUniform("lightspots_int[" + std::to_string(i) + "]", g_lightspots[i].intensity);
+	}
 
 	sf::Sprite sprite;
 	sprite.setTexture(this->get_texture());

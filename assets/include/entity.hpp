@@ -37,4 +37,12 @@ namespace eng {
 
 			sf::Sprite draw();
 	};
+
+	struct LightSpot {
+		sf::Vector3f position;
+        sf::Vector3f color;
+		float intensity;
+
+		LightSpot(sf::Vector3f position, sf::Vector3f color, float intensity): position(position), color(color), intensity(intensity) {}
+	};
 };

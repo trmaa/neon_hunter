@@ -18,7 +18,8 @@ void loop() {
 
 int main() {
 	std::printf(":) \n");
-	
+
+	g_initialize_entities();
 	start_loop();
 }
 
