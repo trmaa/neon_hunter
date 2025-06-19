@@ -4,6 +4,8 @@ Its a game where you hunt bosses in neon colors and a great darck theme with sha
 
 ![screenshot](.screenshots/cube.png)
 
+### ! everithing follows the roule of the left hand because in sfml is easier that way.
+
 ## file structure
 
 assets is compiletime stuff

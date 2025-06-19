@@ -24,8 +24,8 @@ void main() {
     vec3 albedo = texture2D(texture, uv).rgb;
     vec3 normal = texture2D(normalmap, uv).rgb * 2 - 1;
 
-	vec3 light_pos = vec3(50, 10, 50);
-	vec3 to_space_ep = vec3(entity_position.x, 0, entity_position.y);
+	vec3 light_pos = vec3(50, 50, 10);
+	vec3 to_space_ep = vec3(entity_position, 0);
 	vec3 light_dir = normalize(light_pos - to_space_ep);
 	//light_dir = vec3(sin(time), 1, cos(time));
 
