@@ -12,19 +12,19 @@ eng::Entity::Entity(glm::vec2 pos, const std::string& texture_path, const std::s
 }
 
 sf::Sprite eng::Entity::draw() {
-	if (!this->m_canvas.create(this->m_texture.getSize().x, this->m_texture.getSize().y))
+	if (!this->m_canvas.create(this->get_texture().getSize().x, this->get_texture().getSize().y))
 		return sf::Sprite();
 
 	this->m_canvas.clear(sf::Color::Transparent);
 
 	sf::Shader shader;
 	shader.loadFromFile("build/shaders/normal_lighting.glsl", sf::Shader::Fragment);
-	shader.setUniform("texture", this->m_texture);
-	shader.setUniform("normalmap", this->m_normalmap);
+	shader.setUniform("texture", this->get_texture());
+	shader.setUniform("normalmap", this->get_normalmap());
 	shader.setUniform("time", g_ticks);
 
 	sf::Sprite sprite;
-	sprite.setTexture(this->m_texture);
+	sprite.setTexture(this->get_texture());
 	this->m_canvas.draw(sprite, &shader);
 	this->m_canvas.display();
 
