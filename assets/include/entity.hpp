@@ -1,4 +1,5 @@
-#pragma one
+#ifndef ENTITY_HPP
+#define ENTITY_HPP
 
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
@@ -46,3 +47,5 @@ namespace eng {
 		LightSpot(sf::Vector3f position, sf::Vector3f color, float intensity): position(position), color(color), intensity(intensity) {}
 	};
 };
+
+#endif

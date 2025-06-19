@@ -1,4 +1,5 @@
-#pragma one
+#ifndef WINDOW_HPP
+#define WINDOW_HPP
 
 #include <glm/glm.hpp>
 #include <SFML/Graphics.hpp>
@@ -20,3 +21,5 @@ namespace eng {
 			void update();
 	};
 };
+
+#endif

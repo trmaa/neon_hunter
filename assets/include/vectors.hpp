@@ -1,4 +1,5 @@
-#pragma one
+#ifndef VECTORS_HPP
+#define VECTORS_HPP
 
 #include <glm/glm.hpp>
 #include <SFML/Graphics.hpp>
@@ -28,3 +29,5 @@ namespace eng {
 		return sf::Vector3f(v.x, v.y, v.z);
 	}
 };
+
+#endif

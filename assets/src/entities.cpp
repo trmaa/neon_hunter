@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "entities.hpp"
 
 Player g_player = Player(glm::vec2(10.0f, 10.0f));
 

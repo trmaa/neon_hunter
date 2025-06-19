@@ -1,4 +1,5 @@
-#pragma one
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
 
 #include <SFML/Graphics.hpp>
 #include <glm/glm.hpp>
@@ -22,3 +23,5 @@ public:
 
 	void control();
 };
+
+#endif

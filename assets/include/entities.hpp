@@ -1,4 +1,5 @@
-#pragma one
+#ifndef ENTITIES_HPP
+#define ENTITIES_HPP
 
 #include <vector>
 #include "player.hpp"
@@ -9,3 +10,5 @@ extern std::vector<eng::LightSpot> g_lightspots;
 
 extern void g_lightspots_init();
 extern void g_lightspots_push(eng::LightSpot lightspot);
+
+#endif
