@@ -7,11 +7,12 @@
 
 eng::Window::Window(glm::ivec2 res)
 	: m_resolution(res) {
-	this->create(sf::VideoMode(res.x, res.y), "Neon Hunter", sf::Style::Default);
 
-	/************
-	 * PIPELINE *
-	 ************/
+	this->create(sf::VideoMode::getDesktopMode(), "Neon Hunter", sf::Style::Fullscreen);
+
+	sf::View stretched_view(sf::FloatRect(0.f, 0.f, res.x, res.y));
+	this->setView(stretched_view);
+
 	for (auto* entity : g_entities) {
 		this->m_pipeline.push_back([entity]() -> sf::Sprite {
 			return entity->draw();

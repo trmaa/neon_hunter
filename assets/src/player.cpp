@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "globals.hpp"
 
 const sf::Texture& Player::get_texture() {
 	std::string new_path = (m_state == WALKING)
@@ -15,23 +16,25 @@ const sf::Texture& Player::get_texture() {
 
 Player::Player(glm::vec2 pos)
 	: eng::Entity(pos, "build/bin/sprites/player_idle.png", "build/bin/sprites/player_idle_normalmap.png") {
-	this->m_speed = 0.01f;
+	this->m_speed = 10.f;
 }
 
 void Player::control() {
 	glm::vec2 position = this->m_position;
 
+	float fixed_speed = this->m_speed * g_delta_time;
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        position.x -= this->m_speed;
+        position.x -= fixed_speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        position.x += this->m_speed;
+        position.x += fixed_speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        position.y -= this->m_speed;
+        position.y -= fixed_speed;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        position.y += this->m_speed;
+        position.y += fixed_speed;
     }
 
     this->m_state = PlayerState::IDLE;

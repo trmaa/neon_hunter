@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "vectors.hpp"
-#include "entity.hpp"
 #include "globals.hpp"
+#include "entities.hpp"
 
 eng::Entity::Entity(glm::vec2 pos, const std::string& texture_path, const std::string& normalmap_path)
 	: m_position(pos),
@@ -19,9 +19,10 @@ sf::Sprite eng::Entity::draw() {
 
 	sf::Shader shader;
 	shader.loadFromFile("build/shaders/normal_lighting.glsl", sf::Shader::Fragment);
+	shader.setUniform("time", g_ticks);
 	shader.setUniform("texture", this->get_texture());
 	shader.setUniform("normalmap", this->get_normalmap());
-	shader.setUniform("time", g_ticks);
+	shader.setUniform("entity_position", eng::gts(this->m_position));
 
 	sf::Sprite sprite;
 	sprite.setTexture(this->get_texture());
@@ -29,6 +30,8 @@ sf::Sprite eng::Entity::draw() {
 	this->m_canvas.display();
 
 	sf::Sprite out(this->m_canvas.getTexture());
-	out.setPosition(eng::gts(this->m_position));
+
+	glm::vec2 position = this->m_position - g_player.get_position() + (glm::vec2)g_window.get_resolution() / 2.f - glm::vec2(8.f);
+	out.setPosition(eng::gts(position));
 	return out;
 }

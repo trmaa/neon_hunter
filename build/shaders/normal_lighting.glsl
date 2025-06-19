@@ -1,8 +1,11 @@
 #version 130
 
-uniform float time;
+//uniform float time;
+
 uniform sampler2D texture;
 uniform sampler2D normalmap;
+
+uniform vec2 entity_position;
 
 vec3 toneshift(vec3 color) {
 	float brightness = dot(color, vec3(0.299, 0.587, 0.114));
@@ -19,9 +22,12 @@ void main() {
     vec2 uv = gl_TexCoord[0].xy;
 
     vec3 albedo = texture2D(texture, uv).rgb;
-    vec3 normal = texture2D(normalmap, uv).rgb;
+    vec3 normal = texture2D(normalmap, uv).rgb * 2 - 1;
 
-    vec3 light_dir = vec3(sin(time), 0, cos(time));
+	vec3 light_pos = vec3(50, 10, 50);
+	vec3 to_space_ep = vec3(entity_position.x, 0, entity_position.y);
+	vec3 light_dir = normalize(light_pos - to_space_ep);
+	//light_dir = vec3(sin(time), 1, cos(time));
 
     float diff = max(dot(normal, light_dir), 0.3);
 

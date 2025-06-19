@@ -4,7 +4,7 @@
 #include "globals.hpp"
 #include "entities.hpp"
 
-eng::Window g_window(glm::ivec2(200, 150));
+eng::Window g_window(glm::ivec2(192, 108));
 float g_ticks = 0.0f;
 float g_delta_time;
 
@@ -20,10 +20,6 @@ int main() {
 	std::printf(":) \n");
 	
 	start_loop();
-	
-	for (auto* entity : g_entities) {
-        delete entity;
-    }
 }
 
 void start_loop() {
