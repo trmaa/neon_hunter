@@ -10,3 +10,5 @@ Its a game where you hunt bosses in neon colors and a great darck theme with sha
 
 assets is compiletime stuff
 build is runtime stuff
+
+### next is to enhance and finish the lighting system by enableing multiple lightspots and casting shadows.

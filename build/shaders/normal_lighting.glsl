@@ -1,6 +1,6 @@
 #version 130
 
-//uniform float time;
+uniform float time;
 
 uniform sampler2D texture;
 uniform sampler2D normalmap;
@@ -27,7 +27,6 @@ void main() {
 	vec3 light_pos = vec3(50, 50, 10);
 	vec3 to_space_ep = vec3(entity_position, 0);
 	vec3 light_dir = normalize(light_pos - to_space_ep);
-	//light_dir = vec3(sin(time), 1, cos(time));
 
     float diff = max(dot(normal, light_dir), 0.3);
 
