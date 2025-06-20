@@ -1,21 +1,25 @@
 #include "player.hpp"
 #include "entities.hpp"
 
-Player g_player = Player(glm::vec2(10.0f, 10.0f));
+Player g_player = Player(glm::vec3(10.0f, 10.0f, 0));
 
 std::vector<eng::Entity*> g_entities {
 	&g_player,
-	new eng::Entity(glm::vec2(0, 0), "star"),
-	new eng::Entity(glm::vec2(0, -25), "box"),
-	new eng::Entity(glm::vec2(0, 25), "box"),
-	new eng::Entity(glm::vec2(25, 0), "box"),
-	new eng::Entity(glm::vec2(-25, 0), "box"),
+	new eng::Entity(glm::vec3(0, 0, 20), "star"),
+	new eng::Entity(glm::vec3(0, -25, 0), "box"),
+	new eng::Entity(glm::vec3(0, 25, 0), "box"),
+	new eng::Entity(glm::vec3(25, 0, 0), "box"),
+	new eng::Entity(glm::vec3(-25, 0, 0), "box"),
+	new eng::Entity(glm::vec3(0, -25, 13), "box"),
+	new eng::Entity(glm::vec3(0, 25, 13), "box"),
+	new eng::Entity(glm::vec3(25, 0, 13), "box"),
+	new eng::Entity(glm::vec3(-25, 0, 13), "box"),
 };
 
 std::vector<eng::LightSpot> g_lightspots(100, eng::LightSpot(sf::Vector3f(7389.f, 7389.f, 7389.f), sf::Vector3f(0,0,0), 0));
 
 void g_lightspots_init() {
-	g_lightspots[0] = eng::LightSpot(sf::Vector3f(0, 0, 0.1), sf::Vector3f(1,1,0.6), 20);
+	g_lightspots[0] = eng::LightSpot(sf::Vector3f(0, 0, 20.1), sf::Vector3f(1,1,0.6), 40);
 }
 
 void g_lightspots_push(eng::LightSpot lightspot) {

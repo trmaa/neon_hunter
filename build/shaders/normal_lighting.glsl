@@ -3,7 +3,7 @@
 uniform sampler2D texture;
 uniform sampler2D normalmap;
 
-uniform vec2 entity_position;
+uniform vec3 entity_position;
 const int LIGHTS_AMOUNT = 100;
 uniform vec3 lightspots_pos[LIGHTS_AMOUNT];
 uniform vec3 lightspots_col[LIGHTS_AMOUNT];
@@ -34,7 +34,7 @@ void main() {
             break;
         }
 
-		vec3 distance = lightspots_pos[i] - vec3(entity_position, 0);
+		vec3 distance = lightspots_pos[i] - entity_position;
         vec3 light_dir = normalize(distance);
 		float light_int = lightspots_int[i];
 		if (lightspots_int[i] > length(distance)) {

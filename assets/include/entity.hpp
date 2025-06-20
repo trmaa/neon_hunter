@@ -8,7 +8,7 @@
 namespace eng {
 	class Entity {
 		protected:
-			glm::vec2 m_position;
+			glm::vec3 m_position;
 
 			sf::Texture m_texture;
 			sf::Texture m_normalmap;
@@ -19,7 +19,7 @@ namespace eng {
 			sf::RenderTexture m_canvas;
 
 		public:
-			glm::vec2 get_position() { return this->m_position; }
+			glm::vec3 get_position() { return this->m_position; }
 
 			virtual const sf::Texture& get_texture() {
 				if (m_texture.getSize().x == 0)
@@ -33,7 +33,7 @@ namespace eng {
 				return m_normalmap;
 			}
 
-			Entity(glm::vec2 pos, std::string name);
+			Entity(glm::vec3 pos, std::string name);
 			virtual ~Entity() = default;
 
 			sf::Sprite draw();

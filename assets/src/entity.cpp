@@ -1,9 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include <glm/glm.hpp>
 #include "vectors.hpp"
 #include "globals.hpp"
 #include "entities.hpp"
 
-eng::Entity::Entity(glm::vec2 pos, std::string name)
+eng::Entity::Entity(glm::vec3 pos, std::string name)
 	: m_position(pos),
 	  m_texture_path("build/bin/sprites/"+name+".png"),
 	  m_normalmap_path("build/bin/sprites/"+name+"_normalmap.png") {
@@ -35,7 +36,8 @@ sf::Sprite eng::Entity::draw() {
 
 	sf::Sprite out(this->m_canvas.getTexture());
 
-	glm::vec2 position = this->m_position - g_player.get_position() + (glm::vec2)g_window.get_resolution() / 2.f - glm::vec2(8.f);
-	out.setPosition(eng::gts(position));
+	glm::vec3 position = this->m_position - g_player.get_position() + glm::vec3(g_window.get_resolution().x, g_window.get_resolution().y - this->m_position.z*2, 0) / 2.f - glm::vec3(8.f);
+	glm::vec2 position_2d = glm::vec2(position.x, position.y);
+	out.setPosition(eng::gts(position_2d));
 	return out;
 }

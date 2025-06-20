@@ -6,10 +6,62 @@
       "-Iassets/include/",
       "-o",
       "build/neon_hunter",
+      "assets/src/entities.cpp"
+    ],
+    "directory": "/home/pablo/neon_hunter",
+    "file": "/home/pablo/neon_hunter/assets/src/entities.cpp",
+    "output": "/home/pablo/neon_hunter/build/neon_hunter"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Iassets/include/",
+      "-o",
+      "build/neon_hunter",
+      "assets/src/entity.cpp"
+    ],
+    "directory": "/home/pablo/neon_hunter",
+    "file": "/home/pablo/neon_hunter/assets/src/entity.cpp",
+    "output": "/home/pablo/neon_hunter/build/neon_hunter"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Iassets/include/",
+      "-o",
+      "build/neon_hunter",
       "assets/src/main.cpp"
     ],
     "directory": "/home/pablo/neon_hunter",
     "file": "/home/pablo/neon_hunter/assets/src/main.cpp",
+    "output": "/home/pablo/neon_hunter/build/neon_hunter"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Iassets/include/",
+      "-o",
+      "build/neon_hunter",
+      "assets/src/player.cpp"
+    ],
+    "directory": "/home/pablo/neon_hunter",
+    "file": "/home/pablo/neon_hunter/assets/src/player.cpp",
+    "output": "/home/pablo/neon_hunter/build/neon_hunter"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-c",
+      "-Iassets/include/",
+      "-o",
+      "build/neon_hunter",
+      "assets/src/window.cpp"
+    ],
+    "directory": "/home/pablo/neon_hunter",
+    "file": "/home/pablo/neon_hunter/assets/src/window.cpp",
     "output": "/home/pablo/neon_hunter/build/neon_hunter"
   }
 ]

@@ -34,13 +34,13 @@ const sf::Texture& Player::get_normalmap() {
     return m_normalmap;
 }
 
-Player::Player(glm::vec2 pos)
+Player::Player(glm::vec3 pos)
 	: eng::Entity(pos, "player") {
 	this->m_speed = 50.f;
 }
 
 void Player::control() {
-	glm::vec2 position = this->m_position;
+	glm::vec3 position = this->m_position;
 
 	float fixed_speed = this->m_speed * g_delta_time;
 

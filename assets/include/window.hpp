@@ -11,6 +11,7 @@ namespace eng {
 		private:
 			glm::ivec2 m_resolution;
 			std::vector<std::function<sf::Sprite()>> m_pipeline;
+			std::vector<float> m_pipeline_yindex;
 
 		public:
             glm::ivec2 get_resolution() { return this->m_resolution; }

@@ -20,7 +20,7 @@ public:
 	const sf::Texture& get_texture() override;
 	const sf::Texture& get_normalmap() override;
 
-	Player(glm::vec2 pos);
+	Player(glm::vec3 pos);
 	~Player() = default;
 
 	void control();
