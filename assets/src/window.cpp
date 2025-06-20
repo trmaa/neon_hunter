@@ -9,6 +9,7 @@ eng::Window::Window(glm::ivec2 res)
 	: m_resolution(res) {
 
 	this->create(sf::VideoMode::getDesktopMode(), "Neon Hunter", sf::Style::Fullscreen);
+	this->setFramerateLimit(60);
 
 	sf::View stretched_view(sf::FloatRect(0.f, 0.f, res.x, res.y));
 	this->setView(stretched_view);
@@ -22,7 +23,7 @@ eng::Window::Window(glm::ivec2 res)
 }
 
 void eng::Window::update() {
-    this->clear(sf::Color::Black);
+    this->clear(sf::Color(100, 100, 100));
     
     std::vector<size_t> indices(m_pipeline.size());
     for (size_t i = 0; i < indices.size(); ++i) {

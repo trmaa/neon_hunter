@@ -28,7 +28,7 @@ void start_loop() {
                 g_window.close();
             }
         }
-		g_delta_time = clock.restart().asSeconds();
+		g_delta_time = clock.restart().asMilliseconds();
 		g_ticks += g_delta_time;
 		loop();
     }
