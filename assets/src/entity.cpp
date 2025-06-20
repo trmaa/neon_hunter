@@ -1,13 +1,12 @@
 #include <SFML/Graphics.hpp>
-#include "SFML/System/Vector2.hpp"
 #include "vectors.hpp"
 #include "globals.hpp"
 #include "entities.hpp"
 
-eng::Entity::Entity(glm::vec2 pos, const std::string& texture_path, const std::string& normalmap_path)
+eng::Entity::Entity(glm::vec2 pos, std::string name)
 	: m_position(pos),
-	  m_texture_path(texture_path),
-	  m_normalmap_path(normalmap_path) {
+	  m_texture_path("build/bin/sprites/"+name+".png"),
+	  m_normalmap_path("build/bin/sprites/"+name+"_normalmap.png") {
 	this->m_texture.loadFromFile(this->m_texture_path);
 	this->m_normalmap.loadFromFile(this->m_normalmap_path);
 }

@@ -36,7 +36,11 @@ void main() {
 
 		vec3 distance = lightspots_pos[i] - vec3(entity_position, 0);
         vec3 light_dir = normalize(distance);
-		float diff = max(dot(normal, light_dir), 0.0) * lightspots_int[i] / length(distance);
+		float light_int = lightspots_int[i];
+		if (lightspots_int[i] > length(distance)) {
+    		light_int = length(distance);
+		}
+		float diff = max(dot(normal, light_dir), 0.0) * light_int / length(distance);
         total_diff += diff;
 		total_lcol += lightspots_col[i]*diff;
 	}

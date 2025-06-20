@@ -16,7 +16,9 @@ private:
 	float m_speed;
 
 public:
+	std::string get_animation_path();
 	const sf::Texture& get_texture() override;
+	const sf::Texture& get_normalmap() override;
 
 	Player(glm::vec2 pos);
 	~Player() = default;

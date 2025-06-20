@@ -33,7 +33,7 @@ namespace eng {
 				return m_normalmap;
 			}
 
-			Entity(glm::vec2 pos, const std::string& texture_path, const std::string& normalmap_path);
+			Entity(glm::vec2 pos, std::string name);
 			virtual ~Entity() = default;
 
 			sf::Sprite draw();
