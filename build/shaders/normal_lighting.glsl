@@ -41,7 +41,7 @@ void main() {
     		light_int = length(distance);
 		}
 		float dotp = clamp(dot(normal, light_dir), 0.0, 1.0);
-		float diff = max(dotp, 0.4) * light_int / length(distance);
+		float diff = max(dotp, 0.2) * light_int / length(distance);
         total_diff += diff;
 		total_lcol += lightspots_col[i]*diff;
 	}

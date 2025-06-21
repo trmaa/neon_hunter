@@ -1,65 +1,30 @@
+#include <future>
+#include <iostream>
+#include <fstream>
 #include "player.hpp"
+#include "entity.hpp"
 #include "entities.hpp"
+#include "vectors.hpp"
+#include "globals.hpp"
+
+eng::json g_json_read(std::string fpath) {
+	std::ifstream file(fpath);
+	if (!file.is_open()) {
+		std::cerr<<"Json corrupt"<<std::endl;
+		return "";
+	}
+	eng::json data;
+	file >> data;
+	return data;
+}
 
 Player g_player = Player(glm::vec3(-50.0f, -50.0f, 0));
 
 std::vector<eng::Entity*> g_entities {
 	&g_player,
-	new eng::Entity(glm::vec3(0, 0, 18), "star"),
-	new eng::Entity(glm::vec3(0, 0, 0), "box"),
-	new eng::Entity(glm::vec3(0, -25, 0), "box"),
-	new eng::Entity(glm::vec3(0, 25, 0), "box"),
-	new eng::Entity(glm::vec3(25, 0, 0), "box"),
-	new eng::Entity(glm::vec3(-25, 0, 0), "box"),
-	new eng::Entity(glm::vec3(0, -25, 5), "star"),
-	new eng::Entity(glm::vec3(0, 25, 5), "star"),
-	new eng::Entity(glm::vec3(25, 0, 5), "star"),
-	new eng::Entity(glm::vec3(-25, 0, 5), "star"),
-	new eng::Entity(glm::vec3(0, -25, 13), "box"),
-	new eng::Entity(glm::vec3(0, 25, 13), "box"),
-	new eng::Entity(glm::vec3(25, 0, 13), "box"),
-	new eng::Entity(glm::vec3(-25, 0, 13), "box"),
-
-	new eng::Entity(glm::vec3(200+0, 0, 18), "star"),
-	new eng::Entity(glm::vec3(200+0, 0, 0), "box"),
-	new eng::Entity(glm::vec3(200+0, -25, 0), "box"),
-	new eng::Entity(glm::vec3(200+0, 25, 0), "box"),
-	new eng::Entity(glm::vec3(200+25, 0, 0), "box"),
-	new eng::Entity(glm::vec3(200-25, 0, 0), "box"),
-	new eng::Entity(glm::vec3(200+0, -25, 5), "star"),
-	new eng::Entity(glm::vec3(200+0, 25, 5), "star"),
-	new eng::Entity(glm::vec3(200+25, 0, 5), "star"),
-	new eng::Entity(glm::vec3(200-25, 0, 5), "star"),
-	new eng::Entity(glm::vec3(200+0, -25, 13), "box"),
-	new eng::Entity(glm::vec3(200+0, 25, 13), "box"),
-	new eng::Entity(glm::vec3(200+25, 0, 13), "box"),
-	new eng::Entity(glm::vec3(200-25, 0, 13), "box"),
-
-	new eng::Entity(glm::vec3(-100, 0, 18), "box"),
-	new eng::Entity(glm::vec3(-106, 6, 18), "box"),
-	new eng::Entity(glm::vec3(-112, 12, 18), "box"),
-	new eng::Entity(glm::vec3(-118, 18, 18), "box"),
-	new eng::Entity(glm::vec3(-124, 24, 18), "box"),
-
-	new eng::Entity(glm::vec3(-100, 0, 12), "box"),
-	new eng::Entity(glm::vec3(-124, 24, 12), "box"),
-
-	new eng::Entity(glm::vec3(-100, 0, 6), "box"),
-	new eng::Entity(glm::vec3(-124, 24, 6), "box"),
-
-	new eng::Entity(glm::vec3(-100, 0, 0), "box"),
-	new eng::Entity(glm::vec3(-124, 24, 0), "box"),
-
-	new eng::Entity(glm::vec3(-112, 12, 0), "star"),
 };
 
 std::vector<eng::LightSpot> g_lightspots(100, eng::LightSpot(sf::Vector3f(7389.f, 7389.f, 7389.f), sf::Vector3f(0,0,0), 0));
-
-void g_lightspots_init() {
-	g_lightspots[0] = eng::LightSpot(sf::Vector3f(0, 0, 18.1), sf::Vector3f(1,1,0), 10);
-	g_lightspots[1] = eng::LightSpot(sf::Vector3f(200+0, 0, 18.1), sf::Vector3f(1,0,1), 40);
-	g_lightspots[2] = eng::LightSpot(sf::Vector3f(-112, 12, 0.1), sf::Vector3f(0,1,1), 100);
-}
 
 void g_lightspots_push(eng::LightSpot lightspot) {
 	for (std::size_t i = 0; i < g_lightspots.size(); ++i) {
@@ -69,4 +34,50 @@ void g_lightspots_push(eng::LightSpot lightspot) {
         g_lightspots[i] = lightspot;
 		return;
 	}
+}
+
+void g_summon_entities() {
+	std::future<eng::json> raw_entities = std::async(std::launch::async, g_json_read, "build/bin/entities/entities.json");
+	eng::json entities = raw_entities.get();
+
+	for (auto entity : entities) {
+		glm::vec3 position(
+			entity["position"].value("x", 0.0f),
+			entity["position"].value("y", 0.0f),
+			entity["position"].value("z", 0.0f)
+		);
+
+		std::string name = entity.value("name", "unnamed_entity");
+
+		g_entities.push_back(new eng::Entity(position, name));
+	}
+
+	std::future<eng::json> raw_lightspots = std::async(std::launch::async, g_json_read, "build/bin/entities/lightspots.json");
+    eng::json lightspots = raw_lightspots.get();
+
+	for (auto lightspot : lightspots) {
+		if (!lightspot.contains("position") || !lightspot.contains("color") || !lightspot.contains("intensity")) {
+			std::cerr << "Skipping invalid lightspot: missing required field" << std::endl;
+			continue;
+		}
+
+		glm::vec3 position(
+			lightspot["position"].value("x", 0.0f),
+			lightspot["position"].value("y", 0.0f),
+			lightspot["position"].value("z", 0.0f)
+		);
+
+		glm::vec3 color(
+			lightspot["color"].value("r", 1.0f),  
+			lightspot["color"].value("g", 1.0f),
+			lightspot["color"].value("b", 1.0f)
+		);
+
+		float intensity = lightspot.value("intensity", 1.0f);
+
+		g_lightspots_push(eng::LightSpot(eng::gts(position), eng::gts(color), intensity));
+		g_entities.push_back(new eng::Entity(position * 0.999f, "star"));
+	}
+
+	g_window.reload_pipeline();
 }

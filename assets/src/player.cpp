@@ -32,14 +32,14 @@ std::string Player::get_animation_path() {
 }
 
 const sf::Texture& Player::get_texture() {
-	std::string new_path = this->get_animation_path(); 
+    std::string new_path = this->get_animation_path(); 
 
-	if (new_path != m_texture_path || m_texture.getSize().x == 0) {
-		m_texture_path = new_path;
-	}
-	m_texture.loadFromFile(m_texture_path);
+    if (new_path != m_texture_path || m_texture.getSize().x == 0) {
+        m_texture_path = new_path;
+        m_texture.loadFromFile(m_texture_path);
+    }
 
-	return m_texture;
+    return m_texture;
 }
 
 const sf::Texture& Player::get_normalmap() {
@@ -47,39 +47,76 @@ const sf::Texture& Player::get_normalmap() {
 	int number = std::stoi(path.substr(path.size() - 5, 1));
 	std::string new_path = path.substr(0, path.size() - 5) + "_normalmap"+std::to_string(number)+".png";
 
-    if (new_path != m_normalmap_path || m_normalmap.getSize().x == 0) {
+    if (new_path != m_normalmap_path || m_normalmap.getSize().x == 0 || m_flipped) {
         m_normalmap_path = new_path;
         m_normalmap.loadFromFile(m_normalmap_path);
     }
+
+	bool should_be_flipped = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+	bool key_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+	if (should_be_flipped || g_player.get_flipped()) {
+		g_player.set_flipped(true);
+
+		sf::Shader normal_inverter;
+		normal_inverter.loadFromFile("build/shaders/normal_inversion.glsl", sf::Shader::Fragment);
+		normal_inverter.setUniform("texture", m_normalmap);
+
+		sf::RenderTexture render_texture;
+		render_texture.create(m_normalmap.getSize().x, m_normalmap.getSize().y);
+
+		sf::Sprite sprite;
+		sprite.setTexture(m_normalmap);
+
+		render_texture.clear(sf::Color::Transparent);
+		render_texture.draw(sprite, &normal_inverter);
+		render_texture.display();
+
+        m_normalmap = render_texture.getTexture();
+	}
+	if (key_pressed) {
+		g_player.set_flipped(false);
+	}
 
     return m_normalmap;
 }
 
 Player::Player(glm::vec3 pos)
 	: eng::Entity(pos, "player") {
-	this->m_speed = 0.02f;
+	this->m_acceleration = 0.1f;
+	this->m_max_velocity = 0.7f;
 }
 
 void Player::control() {
     glm::vec3 position = this->m_position;
-    float fixed_speed = this->m_speed * g_delta_time;
-	float speed_boost = 2.5f;
+    float fixed_acceleration = this->m_acceleration * g_delta_time;
+	float boost = 2.f;
+    float max_vel = this->m_max_velocity;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
-		fixed_speed *= speed_boost;	
+		max_vel *= boost;	
 	}
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-        position.x -= fixed_speed;
+        this->m_velocity.x -= fixed_acceleration;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-        position.x += fixed_speed;
+        this->m_velocity.x += fixed_acceleration;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        position.y -= fixed_speed;
+        this->m_velocity.y -= fixed_acceleration;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-        position.y += fixed_speed;
+        this->m_velocity.y += fixed_acceleration;
     }
+
+	this->m_velocity *= 0.901f;
+	if (glm::length(this->m_velocity) > max_vel) {
+        this->m_velocity = glm::normalize(this->m_velocity) * max_vel;
+	}
+	if (glm::length(this->m_velocity) < 0.01f) {
+        this->m_velocity = glm::vec3(0, 0, 0);
+	}
+
+    position += this->m_velocity;
 
     const float player_radius = 4.0f;
     bool collided = false;

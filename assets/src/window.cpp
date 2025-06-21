@@ -15,7 +15,12 @@ eng::Window::Window(glm::ivec2 res)
 
 	sf::View stretched_view(sf::FloatRect(0.f, 0.f, res.x, res.y));
 	this->setView(stretched_view);
+	
+	this->reload_pipeline();
+}
 
+void eng::Window::reload_pipeline() {
+	this->m_pipeline.clear();
 	for (auto* entity : g_entities) {
 		this->m_pipeline.push_back([entity]() -> sf::Sprite {
 			return entity->draw();
@@ -68,6 +73,19 @@ void eng::Window::update() {
 		if (cond) {
             sprite.setColor(sf::Color(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, 100));
         }
+
+		if (index == 0) {
+			bool should_be_flipped = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+			bool key_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+			if (should_be_flipped || g_player.get_flipped()) {
+				g_player.set_flipped(true);
+				sprite.setScale(-1.f, 1.f);
+				sprite.setOrigin(sprite.getLocalBounds().width, 0.f);
+			}
+			if (key_pressed) {
+				g_player.set_flipped(false);
+            }
+		}
 
         this->draw(sprite);
     }

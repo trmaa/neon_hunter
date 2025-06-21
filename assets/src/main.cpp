@@ -3,7 +3,7 @@
 #include "globals.hpp"
 #include "entities.hpp"
 
-eng::Window g_window(glm::ivec3(192, 108, 0));
+eng::Window g_window(glm::ivec2(192, 108));
 float g_ticks = 0.0f;
 float g_delta_time;
 
@@ -15,7 +15,7 @@ void loop() {
 }
 
 int main() {
-	g_lightspots_init();
+	g_summon_entities();
 	start_loop();
 }
 

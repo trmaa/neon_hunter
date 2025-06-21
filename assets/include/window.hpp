@@ -20,6 +20,8 @@ namespace eng {
 			~Window() = default;
 
 			void update();
+
+			void reload_pipeline();
 	};
 };
 
