@@ -92,12 +92,12 @@ void Player::control() {
         }
     }
 
-    if (!collided) {
-        this->m_position = position;
-    }
-
     this->m_state = PlayerState::IDLE;
     if (this->m_position != position) {
         this->m_state = PlayerState::WALKING;
+    }
+
+    if (!collided) {
+        this->m_position = position;
     }
 }

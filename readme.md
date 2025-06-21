@@ -11,4 +11,4 @@ Its a game where you hunt bosses in neon colors and a great darck theme with sha
 assets is compiletime stuff
 build is runtime stuff
 
-### next is the movement phisics 
+### next is the movement phisics, attack states for player and mechanincs, passing the entities to the shader to calculate shadows 
