@@ -5,12 +5,12 @@
 #include <SFML/Graphics.hpp>
 
 namespace eng {
-	inline glm::vec3 stg(sf::Vector2f v) {
-		return glm::vec3(v.x, v.y, 0);
+	inline glm::vec2 stg(sf::Vector2f v) {
+		return glm::vec2(v.x, v.y);
 	}
 
-	inline glm::ivec3 stg(sf::Vector2i v) {
-		return glm::ivec3(v.x, v.y, 0);
+	inline glm::ivec2 stg(sf::Vector2i v) {
+		return glm::ivec2(v.x, v.y);
 	}
 
 	inline glm::vec3 stg(sf::Vector3f v) {

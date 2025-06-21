@@ -36,7 +36,18 @@ sf::Sprite eng::Entity::draw() {
 
 	sf::Sprite out(this->m_canvas.getTexture());
 
-	glm::vec3 position = this->m_position - g_player.get_position() + glm::vec3(g_window.get_resolution().x, g_window.get_resolution().y - this->m_position.z*2, 0) / 2.f - glm::vec3(8.f);
+    float sprite_radius = 8.f;
+	glm::vec3 position = 
+		this->m_position 
+		- g_player.get_position() 
+		+ glm::vec3(
+			g_window.get_resolution().x, 
+			g_window.get_resolution().y, 
+			0
+		) / 2.f 
+		- glm::vec3(sprite_radius);
+	position -= glm::vec3(0, this->m_position.z, 0);
+
 	glm::vec2 position_2d = glm::vec2(position.x, position.y);
 	out.setPosition(eng::gts(position_2d));
 	return out;

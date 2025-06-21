@@ -9,7 +9,8 @@ class Player: public eng::Entity {
 private:
 	enum PlayerState {
 		IDLE,
-		WALKING
+		WALKING,
+		ATTACKING,
 	};
 
     PlayerState m_state;

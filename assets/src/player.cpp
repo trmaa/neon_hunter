@@ -4,9 +4,13 @@
 #include "entities.hpp"
 
 std::string Player::get_animation_path() {
+	float period = 6000.0f; 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+		period /= 2.5f;
+	}
+
 	if (this->m_state == IDLE) {
 		const int frames = 2;
-		const float period = 6000.0f; 
 		const float frame_duration = period / frames;
 
 		float cycle_pos = fmod(g_ticks, period);
@@ -15,8 +19,7 @@ std::string Player::get_animation_path() {
 		return "build/bin/sprites/player_idle" + std::to_string(frame) + ".png";
 	}
 	if (this->m_state == WALKING) {
-		const int frames = 12;
-        const float period = 6000.0f; 
+		const int frames = 10;
         const float frame_duration = period / frames;
 
         float cycle_pos = fmod(g_ticks, period);
@@ -24,6 +27,7 @@ std::string Player::get_animation_path() {
 
         return "build/bin/sprites/player_walk" + std::to_string(frame) + ".png";
     }
+
 	return "!!!!!!!!!non player state";
 }
 
@@ -40,7 +44,8 @@ const sf::Texture& Player::get_texture() {
 
 const sf::Texture& Player::get_normalmap() {
 	std::string path = this->get_animation_path();
-	std::string new_path = path.substr(0, path.size() - 4) + "_normalmap.png";
+	int number = std::stoi(path.substr(path.size() - 5, 1));
+	std::string new_path = path.substr(0, path.size() - 5) + "_normalmap"+std::to_string(number)+".png";
 
     if (new_path != m_normalmap_path || m_normalmap.getSize().x == 0) {
         m_normalmap_path = new_path;
@@ -52,12 +57,16 @@ const sf::Texture& Player::get_normalmap() {
 
 Player::Player(glm::vec3 pos)
 	: eng::Entity(pos, "player") {
-	this->m_speed = 0.05f;
+	this->m_speed = 0.02f;
 }
 
 void Player::control() {
     glm::vec3 position = this->m_position;
     float fixed_speed = this->m_speed * g_delta_time;
+	float speed_boost = 2.5f;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+		fixed_speed *= speed_boost;	
+	}
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
         position.x -= fixed_speed;
@@ -86,7 +95,9 @@ void Player::control() {
         glm::vec3 distance = entity->get_position() - position;
         float distance_squared = distance.x * distance.x + distance.y * distance.y;
         
-        if (distance_squared < min_distance * min_distance) {
+		bool cond_1 = distance_squared < min_distance * min_distance;
+		bool cond_2 = distance.z < min_distance;
+        if (cond_1 && cond_2) { 
             collided = true;
             break;
         }
