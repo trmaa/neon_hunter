@@ -1,12 +1,33 @@
 #!/bin/bash
+set -e  # Exit on error
 
 start_time=$(date +%s)
 
-g++ assets/src/*.cpp -o build/neon_hunter \
-    -Wl,-rpath=./assets/lib/ \
-    -Iassets/include/ \
-    -Lassets/lib/ \
-    -lsfml-graphics -lsfml-window -lsfml-system
+CXX=${CXX:-g++}
+CXXFLAGS="-std=c++20 -Wall -Wextra -Iassets/include/"
+LDFLAGS="-Wl,-rpath=./assets/lib/ -Lassets/lib/"
+LIBS="-lsfml-graphics -lsfml-window -lsfml-system"
+OUTPUT="build/neon_hunter"
+OBJ_DIR="bin/"
+
+mkdir -p "$OBJ_DIR"
+
+files=(assets/src/*.cpp)
+total=${#files[@]}
+current=1
+
+for f in "${files[@]}"; do
+    printf "\033[31m [%d/%d] Compiling %s... \033[0m" "$current" "$total" "$f"
+    "$CXX" $CXXFLAGS -c "$f" -o "$OBJ_DIR/$(basename "$f" .cpp).o"
+    printf "\033[32m ✓ \033[0m\n"
+    ((current++))
+done
+
+echo "Linking..."
+
+"$CXX" "$OBJ_DIR"/*.o -o "$OUTPUT" $LDFLAGS $LIBS
+
+rm -rf "$OBJ_DIR"
 
 end_time=$(date +%s)
 elapsed=$((end_time - start_time))

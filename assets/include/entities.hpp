@@ -3,9 +3,6 @@
 
 #include <vector>
 #include "player.hpp"
-#include "json.hpp"
-
-extern eng::json g_json_read(std::string path);
 
 extern Player g_player;
 extern std::vector<eng::Entity*> g_entities;

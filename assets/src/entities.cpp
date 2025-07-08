@@ -1,22 +1,10 @@
 #include <future>
 #include <iostream>
-#include <fstream>
 #include "player.hpp"
 #include "entity.hpp"
 #include "entities.hpp"
 #include "vectors.hpp"
 #include "globals.hpp"
-
-eng::json g_json_read(std::string fpath) {
-	std::ifstream file(fpath);
-	if (!file.is_open()) {
-		std::cerr<<"Json corrupt"<<std::endl;
-		return "";
-	}
-	eng::json data;
-	file >> data;
-	return data;
-}
 
 Player g_player = Player(glm::vec3(-50.0f, -50.0f, 0));
 
@@ -37,7 +25,7 @@ void g_lightspots_push(eng::LightSpot lightspot) {
 }
 
 void g_summon_entities() {
-	std::future<eng::json> raw_entities = std::async(std::launch::async, g_json_read, "build/bin/entities/entities.json");
+	std::future<eng::json> raw_entities = std::async(std::launch::async, eng::json_read, "build/bin/entities/entities.json");
 	eng::json entities = raw_entities.get();
 
 	for (auto entity : entities) {
@@ -52,7 +40,7 @@ void g_summon_entities() {
 		g_entities.push_back(new eng::Entity(position, name));
 	}
 
-	std::future<eng::json> raw_lightspots = std::async(std::launch::async, g_json_read, "build/bin/entities/lightspots.json");
+	std::future<eng::json> raw_lightspots = std::async(std::launch::async, eng::json_read, "build/bin/entities/lightspots.json");
     eng::json lightspots = raw_lightspots.get();
 
 	for (auto lightspot : lightspots) {
@@ -79,5 +67,23 @@ void g_summon_entities() {
 		g_entities.push_back(new eng::Entity(position * 0.999f, "star"));
 	}
 
-	g_window.reload_pipeline();
+	eng::window.reload_pipeline();
 }
+
+void g_save_entities_to_json() {
+    eng::json entities;
+    for (auto* entity : g_entities) {
+		if (entity->get_name() == "player") {
+            continue;
+		}
+        entities.push_back({
+            {"name", "box"},
+            {"position", {
+                {"x", entity->get_position().x},
+                {"y", entity->get_position().y},
+                {"z", entity->get_position().z}
+            }}
+        });
+    }
+    std::ofstream("build/bin/entities/entities.json") << entities.dump(4);
+} 

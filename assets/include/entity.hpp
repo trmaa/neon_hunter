@@ -9,6 +9,7 @@ namespace eng {
 	class Entity {
 		protected:
 			glm::vec3 m_position;
+			std::string m_name;
 
 			sf::Texture m_texture;
 			sf::Texture m_normalmap;
@@ -20,6 +21,7 @@ namespace eng {
 
 		public:
 			glm::vec3 get_position() { return this->m_position; }
+			std::string get_name() { return this->m_name; }
 
 			virtual const sf::Texture& get_texture() {
 				if (m_texture.getSize().x == 0)

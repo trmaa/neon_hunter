@@ -30,7 +30,7 @@ void eng::Window::reload_pipeline() {
 }
 
 void eng::Window::update() {
-    this->clear(sf::Color(0,0,0));
+    this->clear(sf::Color(10,20,200));
     
     std::vector<size_t> indices(m_pipeline.size());
     for (size_t i = 0; i < indices.size(); ++i) {
@@ -50,15 +50,19 @@ void eng::Window::update() {
     for (auto index: indices) {
 		sf::Sprite sprite = m_pipeline[index]();
 
-		/*sf::Sprite shadow = sprite;
-		shadow.setColor(sf::Color(0, 10, 20, 120));
+		sf::CircleShape shadow(15.f); 
+		shadow.setFillColor(sf::Color(0, 10, 20, 120));
+
 		shadow.setPosition(
-			sprite.getPosition().x,
-			//this puts a shadow on Z = 0 from the object at Z E R, where its sprites Y is their Y - Z
-			sprite.getPosition().y + g_entities[index]->get_position().z
+			sprite.getPosition().x - shadow.getRadius() - 16, 
+			//z = 0
+			sprite.getPosition().y + g_entities[index]->get_position().z - shadow.getRadius() - 16 
 		);
 
-		this->draw(shadow);*/
+		float scale = 1.0f + g_entities[index]->get_position().z * 0.01f;
+		shadow.setScale(scale, scale * 0.5f); 
+
+		this->draw(shadow);
 
 		glm::vec2 player_screen_pos = (glm::vec2)this->get_resolution()/2.f + glm::vec2(-8);
 		float distance_to_player = glm::length(player_screen_pos - eng::stg(sprite.getPosition()));
@@ -68,12 +72,14 @@ void eng::Window::update() {
         bool cond_3a = sprite.getPosition().y > player_screen_pos.y+2;
 		bool cond_3b = g_entities[index]->get_position().z > g_player.get_position().z;
 		bool bond_3 = cond_3a || cond_3b;
+		//if player is behing the object
 		bool cond = cond_1 && cond_2 && bond_3;
 
 		if (cond) {
             sprite.setColor(sf::Color(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, 100));
         }
 
+		//if its player
 		if (index == 0) {
 			bool should_be_flipped = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
 			bool key_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);

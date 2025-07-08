@@ -13,7 +13,7 @@ std::string Player::get_animation_path() {
 		const int frames = 2;
 		const float frame_duration = period / frames;
 
-		float cycle_pos = fmod(g_ticks, period);
+		float cycle_pos = std::fmod(eng::ticks, period);
 		int frame = static_cast<int>(cycle_pos / frame_duration);
 
 		return "build/bin/sprites/player_idle" + std::to_string(frame) + ".png";
@@ -22,7 +22,7 @@ std::string Player::get_animation_path() {
 		const int frames = 10;
         const float frame_duration = period / frames;
 
-        float cycle_pos = fmod(g_ticks, period);
+        float cycle_pos = std::fmod(eng::ticks, period);
         int frame = static_cast<int>(cycle_pos / frame_duration);
 
         return "build/bin/sprites/player_walk" + std::to_string(frame) + ".png";
@@ -88,7 +88,7 @@ Player::Player(glm::vec3 pos)
 
 void Player::control() {
     glm::vec3 position = this->m_position;
-    float fixed_acceleration = this->m_acceleration * g_delta_time;
+    float fixed_acceleration = this->m_acceleration * eng::delta_time;
 	float boost = 2.f;
     float max_vel = this->m_max_velocity;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {

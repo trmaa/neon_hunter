@@ -8,6 +8,7 @@ eng::Entity::Entity(glm::vec3 pos, std::string name)
 	: m_position(pos),
 	  m_texture_path("build/bin/sprites/"+name+".png"),
 	  m_normalmap_path("build/bin/sprites/"+name+"_normalmap.png") {
+	this->m_name = name;
 	this->m_texture.loadFromFile(this->m_texture_path);
 	this->m_normalmap.loadFromFile(this->m_normalmap_path);
 }
@@ -41,8 +42,8 @@ sf::Sprite eng::Entity::draw() {
 		this->m_position 
 		- g_player.get_position() 
 		+ glm::vec3(
-			g_window.get_resolution().x, 
-			g_window.get_resolution().y, 
+			eng::window.get_resolution().x, 
+			eng::window.get_resolution().y, 
 			0
 		) / 2.f 
 		- glm::vec3(sprite_radius);

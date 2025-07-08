@@ -3,14 +3,14 @@
 #include "globals.hpp"
 #include "entities.hpp"
 
-eng::Window g_window(glm::ivec2(192, 108));
-float g_ticks = 0.0f;
-float g_delta_time;
+eng::Window eng::window(glm::ivec2(192, 108));
+float eng::ticks = 0.0f;
+float eng::delta_time;
 
 void start_loop();
 
 void loop() {
-	g_window.update();
+	eng::window.update();
 	g_player.control();
 }
 
@@ -21,15 +21,15 @@ int main() {
 
 void start_loop() {
 	sf::Clock clock;
-	while (g_window.isOpen()) {
+	while (eng::window.isOpen()) {
 		sf::Event event;
-        while (g_window.pollEvent(event)) {
+        while (eng::window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                g_window.close();
+                eng::window.close();
             }
         }
-		g_delta_time = clock.restart().asMilliseconds();
-		g_ticks += g_delta_time;
+		eng::delta_time = clock.restart().asMilliseconds();
+		eng::ticks += eng::delta_time;
 		loop();
     }
 }
