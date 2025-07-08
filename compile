@@ -17,7 +17,7 @@ total=${#files[@]}
 current=1
 
 for f in "${files[@]}"; do
-    printf "\033[31m [%d/%d] Compiling %s... \033[0m" "$current" "$total" "$f"
+    printf "\033[31m [%d/%d]\033[0m Compiling %s..." "$current" "$total" "$f"
     "$CXX" $CXXFLAGS -c "$f" -o "$OBJ_DIR/$(basename "$f" .cpp).o"
     printf "\033[32m ✓ \033[0m\n"
     ((current++))

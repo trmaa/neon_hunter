@@ -30,7 +30,7 @@ void eng::Window::reload_pipeline() {
 }
 
 void eng::Window::update() {
-    this->clear(sf::Color(10,20,200));
+    this->clear(sf::Color(100, 100, 100));
     
     std::vector<size_t> indices(m_pipeline.size());
     for (size_t i = 0; i < indices.size(); ++i) {
@@ -50,13 +50,13 @@ void eng::Window::update() {
     for (auto index: indices) {
 		sf::Sprite sprite = m_pipeline[index]();
 
-		sf::CircleShape shadow(15.f); 
-		shadow.setFillColor(sf::Color(0, 10, 20, 120));
+		sf::CircleShape shadow(8.f); 
+		shadow.setFillColor(sf::Color(0, 10, 20));
 
 		shadow.setPosition(
-			sprite.getPosition().x - shadow.getRadius() - 16, 
+			sprite.getPosition().x - shadow.getRadius() + 8, 
 			//z = 0
-			sprite.getPosition().y + g_entities[index]->get_position().z - shadow.getRadius() - 16 
+			sprite.getPosition().y + g_entities[index]->get_position().z - shadow.getRadius() + 20 
 		);
 
 		float scale = 1.0f + g_entities[index]->get_position().z * 0.01f;
