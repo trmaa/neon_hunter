@@ -30,7 +30,7 @@ void eng::Window::reload_pipeline() {
 }
 
 void eng::Window::update() {
-    this->clear(sf::Color(100, 100, 100));
+    this->clear(sf::Color(0, 0, 0));
     
     std::vector<size_t> indices(m_pipeline.size());
     for (size_t i = 0; i < indices.size(); ++i) {
@@ -51,7 +51,7 @@ void eng::Window::update() {
 		sf::Sprite sprite = m_pipeline[index]();
 
 		sf::CircleShape shadow(8.f); 
-		shadow.setFillColor(sf::Color(0, 10, 20));
+		shadow.setFillColor(sf::Color(0, 0, 0));
 
 		shadow.setPosition(
 			sprite.getPosition().x - shadow.getRadius() + 8, 
